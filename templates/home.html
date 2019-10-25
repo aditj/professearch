@@ -1,0 +1,156 @@
+{%  load static %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+	<title>ProfesSearch</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="Cloud 83 - hosting template ">
+	<meta name="keywords" content="cloud, hosting, creative, html">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Favicon -->
+	<link href="img/LOGO start-up.ico" rel="shortcut icon"/>
+
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="{% static 'profs/bootstrap.min.css' %}"/>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="{% static 'profs/owl.carousel.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'profs/animate.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'profs/style.css' %}"/>
+
+
+
+</head>
+<body>
+	<!-- Header section -->
+	<header class="header-section">
+		<a href="#" class="site-logo"><img src="{% static "profs/images/LOGO start-up.ico" %}" alt="ProfesSearch"></a>
+		<div class="nav-switch">
+			<i class="fa fa-bars"></i>
+		</div>
+		<div class="nav-warp">
+			<div class="user-panel" style="background: #333399;">
+				<a href="#https://www.facebook.com/LohitKRITI2k19/"><i class="fa fa-facebook fa-2x"></i></a>
+			</div><br>
+			<div class="user-panel"style="background: #C40233;">
+				<a href="https://www.instagram.com/professearch.iitg/"><i class="fa fa-instagram fa-2x"></i></a>
+			</div>
+		</div>
+	</header>
+	<!-- Header section end -->
+
+
+	<!-- Hero section -->
+	<section class="domain-search-section spad set-bg" data-setbg="{% static 'profs/images/image.jpeg'%}">
+		<div class="container"><br><br>
+			<div class="section-title st-white">
+				<h1><font color="green">PROFES</font><font color="white">SEARCH</font>
+				<h5>- YOUR INTERN MADE EASY</h5>
+			</div>
+			<br><br>
+			<div class="domain-form-warp">
+				<form class="domain-search-form" method="post" action="/search/">
+                    {% csrf_token %}
+					<input type="text" name="srh" placeholder="Search Professor By Interest, College, Name or Dept ">
+					<button class="site-btn" style="background: #5C5248;" type="submit">Search</button>
+				</form>
+			</div>
+		</div>
+	</section>
+	<!-- Hero section end -->
+
+
+	<!-- Features section -->
+	<section class="features-section spad">
+		<div class="container">
+			<div class="section-title">
+				<h2>WE PROVIDE</h2>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-md-6 feature-item fi-center-top">
+					<div class="ft-icon" style="background: blue;">
+						<i class="fa fa-book" style="background: blue;"></i>
+					</div>
+					<h4>COMMON PORTAL</h4>
+					<p>where student can search for professor's details according to  topics of research and specialization. </p>
+				</div>
+				<div class="col-lg-6 col-md-6 feature-item fi-center-top">
+					<div class="ft-icon" style="background: blue;">
+						<i class="fa fa-list" style="background: blue;"></i>
+					</div>
+					<h4>COMPREHENSIVE DATABASE</h4>
+					<p>acting as a one stop solution to ease the research internship process.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Features section end -->
+
+
+
+	<!-- Domain search section -->
+	<section class="features-section spad">
+		<div class="container">
+			<div class="section-title">
+				<h2>WHO ALL CAN BENEFIT</h2>
+			</div>
+			<div class="row">
+				<div class="col-lg-3 col-md-6 feature-item">
+					<div class="ft-icon" style="background: blue;">
+						<i class="fa fa-graduation-cap" style="background: blue;"></i>
+					</div>
+					<h4>STUDENTS IN BACHELOR, MASTER AND PhD</h4>
+
+				</div>
+				<div class="col-lg-3 col-md-6 feature-item">
+					<div class="ft-icon" style="background: blue;">
+						<i class="fa fa-university" style="background: blue;"></i>
+					</div>
+					<h4>200M+ UNIVERSITY STUDENTS IN THE WORLD</h4>
+
+				</div>
+				<div class="col-lg-3 col-md-6 feature-item">
+					<div class="ft-icon" style="background: blue;">
+						<i class="fa fa-map-marker" style="background: blue;"></i>
+					</div>
+					<h4>20M+ IN INDIA</h4>
+
+				</div>
+				<div class="col-lg-3 col-md-6 feature-item">
+					<div class="ft-icon" style="background: blue;">
+						<i class="fa fa-user-circle-o" style="background: blue;"></i>
+					</div>
+					<h4>4500+ IN OUR COLLEGE</h4>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Domain search section end -->
+
+
+	<!-- Footer section -->
+	<footer class="footer-section">
+		<div class="container">
+				<div class="copyright">
+					Copyright &copy; ProfesSearch 2019
+				</div>
+		</div>
+	</footer>
+	<!-- Footer top section end -->
+
+
+	<!--====== Javascripts & Jquery ======-->
+	<script src="{% static 'js/jquery-3.2.1.min.js'%}" type="text/javascript"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{%  static 'js/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'js/circle-progress.min.js'%}" ></script>
+	<script src="{% static 'js/main.js'%}"></script>
+
+	</body>
+</html>

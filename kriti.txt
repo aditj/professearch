@@ -1,0 +1,7 @@
+<!--<div class="site-container">
+        <nav>
+            <a href="">home</a>
+            <a href="profs/">Full List</a>
+        </nav>
+        {% block content %}{% endblock %}
+        </div>-->

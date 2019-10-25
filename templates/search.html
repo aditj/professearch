@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Search Results</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+	<link href="img/LOGO start-up.ico" rel="shortcut icon"/>
+	<style type="text/css">
+		input{
+			width: 600px	!important;
+		}
+	</style>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/"><font color="green">PROFES</font><font color="white">SEARCH</font></a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+      	<div class="user-panel">
+				<a href="#"><i class="fa fa-facebook fa-2x"></i></a>
+			</div>
+      </li>&nbsp;&nbsp;&nbsp;&nbsp;
+      <li class="nav-item">
+        <div class="user-panel">
+				<a href="#"><i class="fa fa-instagram fa-2x"></i></a>
+			</div>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-4" method="post" action="/search/">
+      {% csrf_token %}
+      <input class="form-control mr-sm-2" type="search" placeholder="Search Professor by College, Name or Department" aria-label="Search" name="srh">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+	<br><br>
+	&nbsp;&nbsp;<font size="4px">Search results related to <b>"{{ srch }}"</b></font>
+	<br><br>
+    <div>
+
+        {% if messages %}
+            No Result Found
+        {% endif %}
+
+    </div><br>
+    {% if sr %}
+	<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">NAME</th>
+      <th scope="col">INSTITUTE</th>
+      <th scope="col">DEPARTMENT</th>
+      <th scope="col">AREAS OF RESEARCH</th>
+      <th scope="col">WEBPAGE</th>
+      <th scope="col">EMAIL</th>
+      <th scope="col">CONTACT</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% endif %}
+
+  {% if sr %}
+            {% for k in sr %}
+    <tr>
+      <th scope="row">{{ k.name }}</th>
+      <td>{{ k.institute }}</td>
+      <td>{{ k.dept }}</td>
+      <td>{{ k.aor }}</td>
+      <td>{{ k.web }}</td>
+      <td>{{k.email}}</td>
+      <td>{{ k.phone }}</td>
+    </tr>
+{% endfor %}
+    {% endif %}
+  </tbody>
+</table>
+
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
