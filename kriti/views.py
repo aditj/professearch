@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from django.db.models import Q
 from profs.models import Prof
 import sqlite3
