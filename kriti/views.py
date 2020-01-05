@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
+
 from django.contrib import messages
 from django.http import HttpResponseRedirect,HttpResponse
 from django.db.models import Q
@@ -24,15 +26,25 @@ def pop(request):
 
 def search(request):
     if request.method == 'POST':
-        srch = request.POST['srh']
+        search = request.POST.get('search')
+        page=1
+    else:
+        search=request.GET.get('search','')
+        page = request.GET.get('page','1')
+    matches= Prof.objects.filter(Q(name__icontains=search)|Q(institute__icontains=search)|Q(dept__icontains=search)|Q(aor__icontains=search))
+    
+    print("hello",page)
+    paginator = Paginator(matches, 10)
+    try:
+        match = paginator.page(page)
+    except PageNotAnInteger:
+        match = paginator.page(1)
+    except EmptyPage:
+        match = paginator.page(paginator.num_pages)
+    if match:
+        return render(request, 'search.html', {'results':match,'search': search})
+    else:
 
-        if srch:
-            match= Prof.objects.filter(Q(name__icontains=srch)|Q(institute__icontains=srch)|Q(dept__icontains=srch)|Q(aor__icontains=srch))
-            if match:
-                return render(request, 'search.html', {'sr':match,'srch': request.POST['srh']})
-            else:
-
-                return render(request, 'search.html', {'sr': match, 'srch': request.POST['srh'],'messages':1})
-        else:
-            return HttpResponseRedirect('/search/')
+        return render(request, 'search.html', {'results': match, 'search': search,'fail':1})
+    
     return render(request, 'search.html')

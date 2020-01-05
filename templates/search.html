@@ -35,22 +35,22 @@
     </ul>
     <form class="form-inline my-2 my-lg-4" method="post" action="/search/">
       {% csrf_token %}
-      <input class="form-control mr-sm-2" type="search" placeholder="Search Professor by College, Name or Department" aria-label="Search" name="srh">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search Professor by College, Name or Department" aria-label="Search" name="search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>
 </nav>
 	<br><br>
-	&nbsp;&nbsp;<font size="4px">Search results related to <b>"{{ srch }}"</b></font>
+	&nbsp;&nbsp;<font size="4px">Search results related to <b>{{ search }}</b></font>
 	<br><br>
     <div>
 
-        {% if messages %}
+        {% if fail %}
             No Result Found
         {% endif %}
 
     </div><br>
-    {% if sr %}
+    {% if results %}
 	<table class="table table-hover">
   <thead class="thead-dark">
     <tr>
@@ -66,8 +66,8 @@
   <tbody>
   {% endif %}
 
-  {% if sr %}
-            {% for k in sr %}
+  {% if results %}
+            {% for k in results %}
     <tr>
       <th scope="row">{{ k.name }}</th>
       <td>{{ k.institute }}</td>
@@ -81,7 +81,25 @@
     {% endif %}
   </tbody>
 </table>
-
+{% if results.has_other_pages %}
+  <ul class="pagination justify-content-center">
+    {% if results.has_previous %}
+      <li  class="page-item"><a class="page-link" href="?page={{ results.previous_page_number }}&search={{ search }}">&laquo;</a></li>
+    {% else %}
+    <li  class="page-item disabled"><a class="page-link" href="?search={{ search }}">&laquo;</a></li>
+    {% endif %}
+    {% for i in results.paginator.page_range %}
+      
+        <li  class="page-item"><a class="page-link" href="?page={{ i }}&search={{ search }}">{{ i }}</a></li>
+     
+    {% endfor %}
+    {% if results.has_next %}
+      <li  class="page-item"><a class="page-link" href="?page={{ results.next_page_number }}&search={{ search }}">&raquo;</a></li>
+    {% else %}
+    <li  class="page-item disabled"><a class="page-link" href="?search={{ search }}">&laquo;</a></li>
+    {% endif %}
+  </ul>
+{% endif %}
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
