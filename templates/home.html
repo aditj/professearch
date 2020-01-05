@@ -1,5 +1,5 @@
 {%  load static %}
-{% load staticfiles %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -44,14 +44,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<div class="nav-switch">
 			<i class="fa fa-bars"></i>
 		</div>
+		{% if user %}
 		<div class="nav-warp">
-			<div class="user-panel" style="background: #333399;">
-				<a href="https://www.facebook.com/LohitKRITI2k19/"><i class="fa fa-facebook fa-2x"></i></a>
-			</div><br>
-			<div class="user-panel"style="background: #C40233;">
-				<a href="https://www.instagram.com/professearch.iitg/"><i class="fa fa-instagram fa-2x"></i></a>
+			<div class="user-panel" >
+				<a href="/logout">
+              <i class="fa fa-power-off"></i>
+              <span>LOGOUT</span>
+            </a>
+			</div>
+			<div class="user-panel" style="background:blue">
+				Welcome {{ user.username }}
 			</div>
 		</div>
+		{% else %}
+		<div class="nav-warp">
+			<div class="user-panel" style="background: #333399;">
+				<a href="/login"><i class="fa fa-sign-in fa-2x"></i><b> &nbspLogin</b></a>
+			</div>
+			<div class="user-panel"style="background: #C40233;">
+				<a href="/signup"><i class="fa fa-upload fa-2x"></i><b> &nbspSignup</b></a>
+			</div>
+		</div>
+		{% endif %}
 	</header>
 	<!-- Header section end -->
 
@@ -64,6 +78,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				<h5>- YOUR RESEARCH MADE EASY</h5>
 			</div>
 			<br><br>
+			{% if user %}
 			<div class="domain-form-warp">
 				<form class="domain-search-form" method="post" action="/search/">
                     {% csrf_token %}
@@ -71,7 +86,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 					<button class="site-btn" style="background: #5C5248;" type="submit">Search</button>
 				</form>
 			</div>
+			{% endif %}
 		</div>
+
 	</section>
 	<!-- Hero section end -->
 

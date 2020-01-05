@@ -22,8 +22,12 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^$', views.hello_world),
+    url(r'^$', views.hello_world, name='hello_world'),
     url(r'^pop/$', views.pop),
     url(r'^search/$', views.search),
-
+    url(r'^login/$', views.user_login, name='user_login'),
+    path('logout/',views.user_logout,name='user_logout'),
+    url(r'^signup/$', views.signup, name='signup'),
+    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        views.activate, name='activate'),
 ]
