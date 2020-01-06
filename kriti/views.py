@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
-
+from datetime import datetime
 from django.contrib import messages
 from django.http import HttpResponseRedirect,HttpResponse
 from django.db.models import Q
@@ -26,6 +26,11 @@ def pop(request):
 
 def search(request):
     if request.method == 'POST':
+        if (user["time"]-datetime.now()).total_seconds()<2 or user["verify"]==True:
+            user["verify"]=True
+            user["time"]=datetime.now()
+            return HttpResponseRedirect('/verify_captcha')
+        user["time"]=datetime.now()
         search = request.POST.get('search')
         page=1
     else:
@@ -48,3 +53,4 @@ def search(request):
         return render(request, 'search.html', {'results': match, 'search': search,'fail':1})
     
     return render(request, 'search.html')
+def verify_captcha(request):
