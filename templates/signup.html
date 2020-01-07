@@ -1,0 +1,22 @@
+  <div class="container">
+      <br><br><br><br>
+      <h2><b>Sign up</b></h2><br>
+      <form method="post">
+        {% csrf_token %}
+          {% for field in form %}
+          <p>
+            {{ field.label_tag }}
+            {{ field }}
+
+            {% for error in field.errors %}
+              <p style="color: red">{{ error }}</p>
+            {% endfor %}
+          </p>
+          {% endfor %}
+          <br>
+        <button type="submit"><h4>Sign up</h4></button>
+      </form>
+      <br><br>
+      Already have an account ? <a href="/login">Login here</a>
+      <br><br><br><br>
+  </div>

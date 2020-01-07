@@ -117,12 +117,18 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
+GOOGLE_RECAPTCHA_SECRET_KEY ='6LdjIs0UAAAAANDAHkhpIs0UYET-YqNceOMg8FWS'
+#To send EmailMessage
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'my.startup201@gmail.com'
+EMAIL_HOST_PASSWORD = 'p@r@g012'
+EMAIL_PORT = 587
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, "statics")
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
+'''STATICFILES_DIRS = [
    os.path.join(BASE_DIR, 'statics'),
-]
+]'''

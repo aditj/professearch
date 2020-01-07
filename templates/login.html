@@ -1,0 +1,20 @@
+
+{% load static %}
+
+<div class="container text-center" >
+    <br><br><br><br><br><br>
+      <h1><b>Login here :</b></h1><br>
+        <form method="post" action="{% url 'user_login' %}">
+          {% csrf_token %}
+          {# A more "HTML" way of creating the login form#}
+          <label for="username"><h3><b>Username :</b></h3></label>
+          <input type="text" name="username" placeholder="Username"><br><br>
+          <label for="password"><h3><b>Password &nbsp: </b></h3></label>
+          <input type="password" name="password" placeholder="Password"><br><br>
+          <input type="submit" name="" value="Login"><br><br>
+          Don't have an account ? <a href="/signup">SIGNUP</a> here.<br>
+
+
+        </form><br><br><br><br><br><br><br><br>
+
+</div>

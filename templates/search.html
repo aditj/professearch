@@ -73,9 +73,9 @@
       <td>{{ k.institute }}</td>
       <td>{{ k.dept }}</td>
       <td>{{ k.aor }}</td>
-      <td>{{ k.web }}</td>
-      <td>{{k.email}}</td>
-      <td>{{ k.phone }}</td>
+      <td><a href="{{ k.web }}">{{ k.web }}</a></td>
+      <td><a href="mailto:{{k.email}}">{{k.email}}</a></td>
+      <td><a href="tel:{{ k.phone }}">{{ k.phone }}</a></td>
     </tr>
 {% endfor %}
     {% endif %}
