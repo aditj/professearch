@@ -1,4 +1,7 @@
 from django.shortcuts import render
+import urllib
+import json
+from django.conf import settings
 from kriti.forms import SignupForm
 from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, login, logout
@@ -10,11 +13,12 @@ from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
+from datetime import datetime,timezone
 from django.contrib import messages
 from django.http import HttpResponseRedirect,HttpResponse
 from django.urls import reverse
 from django.db.models import Q
-from profs.models import Prof
+from profs.models import Prof,Profile
 import sqlite3
 import os
 module_dir = os.path.dirname(__file__)  # get current directory
@@ -28,26 +32,36 @@ def hello_world(request):
 def pop(request):
     conn= sqlite3.connect(os.path.join(module_dir,"db.db"))
     c=conn.cursor()
-
     c.execute("SELECT * FROM Consolidated")
     Prof.objects.all().delete()
     for prof in c:
         p= Prof()
         if(prof[0]!=None and prof[1]!=None and prof[2]!=None):
-            p.name,p.institute,p.dept,p.aor,p.phone,p.email,p.web=prof
+            p.name,p.institute,p.dept,p.phone,p.aor,p.email,p.web=prof
             p.save()
     return HttpResponse('/')
 
 def search(request):
     if request.method == 'POST':
-        search = request.POST.get('search')
-        page=1
+        if request.user.is_active:
+            profile=Profile.objects.get(user=request.user)
+            print((datetime.now(timezone.utc)-profile.last_login).total_seconds())
+            if profile.last_login==None:
+                profile.last_login=datetime.now(timezone.utc)
+                profile.save()
+            if (datetime.now(timezone.utc)-profile.last_login).total_seconds()<2 or profile.verify_captcha==False:
+                profile.verify_captcha=False
+                profile.last_login=datetime.now(timezone.utc)
+                profile.save()
+                return HttpResponseRedirect('/verify_captcha')
+            profile.last_login=datetime.now(timezone.utc)
+            profile.save()
+            search = request.POST.get('search')
+            page=1
     else:
         search=request.GET.get('search','')
         page = request.GET.get('page','1')
     matches= Prof.objects.filter(Q(name__icontains=search)|Q(institute__icontains=search)|Q(dept__icontains=search)|Q(aor__icontains=search))
-
-    print("hello",page)
     paginator = Paginator(matches, 10)
     try:
         match = paginator.page(page)
@@ -74,6 +88,10 @@ def user_login(request):
             if user:
                 if user.is_active:
                     login(request,user)
+                    profile=Profile.objects.get(user=request.user)
+                    profile.last_login=datetime.now(timezone.utc)
+                    profile.save()
+                   
                     return HttpResponseRedirect(reverse('hello_world'))
 
                 else:
@@ -133,3 +151,27 @@ def activate(request, uidb64, token):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('hello_world'))
+def verify_captcha(request):
+
+    if request.method == 'POST':
+        recaptcha_response = request.POST.get('g-recaptcha-response')
+        url = 'https://www.google.com/recaptcha/api/siteverify'
+        values = {
+            'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+            'response': recaptcha_response
+        }
+        data = urllib.parse.urlencode(values).encode()
+        req =  urllib.request.Request(url, data=data)
+        response = urllib.request.urlopen(req)
+        result = json.loads(response.read().decode())
+        profile=Profile.objects.get(user=request.user)
+        if result['success']:
+            profile.verify_captcha=True
+            profile.save()
+            return HttpResponseRedirect(reverse('hello_world'))
+        else:
+            profile.verify_captcha=False
+            profile.save()
+            return HttpResponse('Captcha Failed')
+    return render(request, 'captcha.html')
+ 

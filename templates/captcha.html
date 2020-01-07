@@ -1,0 +1,9 @@
+<form method="post" action="/verify_captcha/">
+    {% csrf_token %}
+    We detect some suspicious activity , this can be a false alarm sometimes, please verify by completing this ReCaptcha <br>
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <div class="g-recaptcha" data-sitekey="6LdjIs0UAAAAAE52Wu9rmF4WGWznhfAZ5d64Jv5m"></div>
+
+    <button type="submit" class="btn btn-primary">Verify</button>
+  </form>

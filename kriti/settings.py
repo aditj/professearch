@@ -117,7 +117,7 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
+GOOGLE_RECAPTCHA_SECRET_KEY ='6LdjIs0UAAAAANDAHkhpIs0UYET-YqNceOMg8FWS'
 #To send EmailMessage
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
