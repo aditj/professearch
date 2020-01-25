@@ -44,8 +44,9 @@ def pop(request):
 def search(request):
     if request.method == 'POST':
         if request.user.is_active:
-            profile=Profile.objects.get(user=request.user)
-            print((datetime.now(timezone.utc)-profile.last_login).total_seconds())
+            profile=Profile()
+            profile=Profile.objects.get(user=request.user.id)
+            #print((datetime.now(timezone.utc)-profile.last_login).total_seconds())
             if profile.last_login==None:
                 profile.last_login=datetime.now(timezone.utc)
                 profile.save()
@@ -91,7 +92,7 @@ def user_login(request):
                     profile=Profile.objects.get(user=request.user)
                     profile.last_login=datetime.now(timezone.utc)
                     profile.save()
-                   
+
                     return HttpResponseRedirect(reverse('hello_world'))
 
                 else:
@@ -114,6 +115,9 @@ def signup(request):
                 user = form.save(commit=False)
                 user.is_active = False
                 user.save()
+                profile = Profile()
+                profile.user = user
+                profile.save()
                 current_site = get_current_site(request)
                 mail_subject = 'Activate your Professearch account.'
                 message = render_to_string('acc_active_email.html', {
@@ -174,4 +178,3 @@ def verify_captcha(request):
             profile.save()
             return HttpResponse('Captcha Failed')
     return render(request, 'captcha.html')
- 
